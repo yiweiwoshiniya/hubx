@@ -1,4 +1,4 @@
-const BASE_URL = "https://api.readhub.cn";
+const BASE_URL = "https://hubx-api-proxy.843699906.workers.dev";
 
 export function createApiClient() {
   function buildUrl(path, params = {}) {
