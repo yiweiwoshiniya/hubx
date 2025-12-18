@@ -3,21 +3,24 @@ const BASE_URL = "/api";
 
 export function createApiClient() {
   function buildUrl(path, params = {}) {
-    const url = new URL(path, BASE_URL);
-    const searchParams = url.searchParams;
-
+    // 拼接相对路径
+    const fullPath = `${BASE_URL}${path}`;
+    
+    // 构建查询参数
     const common = {
       appVersion: "web-1.0",
       platform: "Web",
     };
-
+    
+    const queryParams = new URLSearchParams();
     Object.entries({ ...common, ...params }).forEach(([k, v]) => {
       if (v !== undefined && v !== null && v !== "") {
-        searchParams.set(k, String(v));
+        queryParams.set(k, String(v));
       }
     });
-
-    return url.toString();
+    
+    const queryString = queryParams.toString();
+    return queryString ? `${fullPath}?${queryString}` : fullPath;
   }
 
   async function get(path, params) {
