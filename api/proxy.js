@@ -20,16 +20,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 从请求路径中提取 API 路径
-    // 例如: /api/topic/daily → path = ['topic', 'daily']
-    const { path, ...query } = req.query;
+    // 从请求 URL 中提取 API 路径
+    // 例如: /api/topic/daily → apiPath = 'topic/daily'
+    const requestUrl = new URL(req.url, `https://${req.headers.host}`);
+    const apiPath = requestUrl.pathname.replace(/^\/api\//, '');
     
     // 构建目标 URL
-    const apiPath = Array.isArray(path) ? path.join('/') : (path || '');
     const targetUrl = new URL(`/${apiPath}`, API_ORIGIN);
     
-    // 添加查询参数
-    Object.entries(query).forEach(([key, value]) => {
+    // 复制所有查询参数
+    requestUrl.searchParams.forEach((value, key) => {
       targetUrl.searchParams.set(key, value);
     });
 
