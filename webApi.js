@@ -1,4 +1,5 @@
-const BASE_URL = "https://hubx-api-proxy.843699906.workers.dev";
+// Vercel Serverless Function 代理路径
+const BASE_URL = "/api";
 
 export function createApiClient() {
   function buildUrl(path, params = {}) {
